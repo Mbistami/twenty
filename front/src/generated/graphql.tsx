@@ -895,6 +895,7 @@ export type Mutation = {
   deleteManyPerson: AffectedRows;
   deleteManyPipelineProgress: AffectedRows;
   deleteWorkspaceMember: WorkspaceMember;
+  impersonate: Verify;
   renewToken: AuthTokens;
   signUp: LoginToken;
   updateOneActivity: Activity;
@@ -973,6 +974,11 @@ export type MutationDeleteManyPipelineProgressArgs = {
 
 export type MutationDeleteWorkspaceMemberArgs = {
   where: WorkspaceMemberWhereUniqueInput;
+};
+
+
+export type MutationImpersonateArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -1828,10 +1834,12 @@ export type Telemetry = {
 
 export type User = {
   __typename?: 'User';
+  allowImpersonation: Scalars['Boolean'];
   assignedActivities?: Maybe<Array<Activity>>;
   authoredActivities?: Maybe<Array<Activity>>;
   authoredAttachments?: Maybe<Array<Attachment>>;
   avatarUrl?: Maybe<Scalars['String']>;
+  canImpersonate: Scalars['Boolean'];
   comments?: Maybe<Array<Comment>>;
   companies?: Maybe<Array<Company>>;
   createdAt: Scalars['DateTime'];
@@ -1874,10 +1882,12 @@ export type UserExists = {
 };
 
 export type UserOrderByWithRelationInput = {
+  allowImpersonation?: InputMaybe<SortOrder>;
   assignedActivities?: InputMaybe<ActivityOrderByRelationAggregateInput>;
   authoredActivities?: InputMaybe<ActivityOrderByRelationAggregateInput>;
   authoredAttachments?: InputMaybe<AttachmentOrderByRelationAggregateInput>;
   avatarUrl?: InputMaybe<SortOrder>;
+  canImpersonate?: InputMaybe<SortOrder>;
   comments?: InputMaybe<CommentOrderByRelationAggregateInput>;
   companies?: InputMaybe<CompanyOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
@@ -1902,7 +1912,9 @@ export type UserRelationFilter = {
 };
 
 export enum UserScalarFieldEnum {
+  AllowImpersonation = 'allowImpersonation',
   AvatarUrl = 'avatarUrl',
+  CanImpersonate = 'canImpersonate',
   CreatedAt = 'createdAt',
   DeletedAt = 'deletedAt',
   Disabled = 'disabled',
@@ -1969,10 +1981,12 @@ export type UserSettingsWhereInput = {
 };
 
 export type UserUpdateInput = {
+  allowImpersonation?: InputMaybe<Scalars['Boolean']>;
   assignedActivities?: InputMaybe<ActivityUpdateManyWithoutAssigneeNestedInput>;
   authoredActivities?: InputMaybe<ActivityUpdateManyWithoutAuthorNestedInput>;
   authoredAttachments?: InputMaybe<AttachmentUpdateManyWithoutAuthorNestedInput>;
   avatarUrl?: InputMaybe<Scalars['String']>;
+  canImpersonate?: InputMaybe<Scalars['Boolean']>;
   comments?: InputMaybe<CommentUpdateManyWithoutAuthorNestedInput>;
   companies?: InputMaybe<CompanyUpdateManyWithoutAccountOwnerNestedInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
@@ -2008,10 +2022,12 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  allowImpersonation?: InputMaybe<BoolFilter>;
   assignedActivities?: InputMaybe<ActivityListRelationFilter>;
   authoredActivities?: InputMaybe<ActivityListRelationFilter>;
   authoredAttachments?: InputMaybe<AttachmentListRelationFilter>;
   avatarUrl?: InputMaybe<StringNullableFilter>;
+  canImpersonate?: InputMaybe<BoolFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   companies?: InputMaybe<CompanyListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -2317,7 +2333,7 @@ export type VerifyMutationVariables = Exact<{
 }>;
 
 
-export type VerifyMutation = { __typename?: 'Mutation', verify: { __typename?: 'Verify', user: { __typename?: 'User', id: string, email: string, displayName: string, firstName?: string | null, lastName?: string | null, workspaceMember?: { __typename?: 'WorkspaceMember', id: string, workspace: { __typename?: 'Workspace', id: string, domainName?: string | null, displayName?: string | null, logo?: string | null, inviteHash?: string | null } } | null, settings: { __typename?: 'UserSettings', id: string, colorScheme: ColorScheme, locale: string } }, tokens: { __typename?: 'AuthTokenPair', accessToken: { __typename?: 'AuthToken', token: string, expiresAt: string }, refreshToken: { __typename?: 'AuthToken', token: string, expiresAt: string } } } };
+export type VerifyMutation = { __typename?: 'Mutation', verify: { __typename?: 'Verify', user: { __typename?: 'User', id: string, email: string, displayName: string, firstName?: string | null, lastName?: string | null, allowImpersonation: boolean, workspaceMember?: { __typename?: 'WorkspaceMember', id: string, workspace: { __typename?: 'Workspace', id: string, domainName?: string | null, displayName?: string | null, logo?: string | null, inviteHash?: string | null } } | null, settings: { __typename?: 'UserSettings', id: string, colorScheme: ColorScheme, locale: string } }, tokens: { __typename?: 'AuthTokenPair', accessToken: { __typename?: 'AuthToken', token: string, expiresAt: string }, refreshToken: { __typename?: 'AuthToken', token: string, expiresAt: string } } } };
 
 export type RenewTokenMutationVariables = Exact<{
   refreshToken: Scalars['String'];
@@ -2550,7 +2566,7 @@ export type SearchCompanyQuery = { __typename?: 'Query', searchResults: Array<{ 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, email: string, displayName: string, firstName?: string | null, lastName?: string | null, avatarUrl?: string | null, workspaceMember?: { __typename?: 'WorkspaceMember', id: string, workspace: { __typename?: 'Workspace', id: string, domainName?: string | null, displayName?: string | null, logo?: string | null, inviteHash?: string | null } } | null, settings: { __typename?: 'UserSettings', id: string, locale: string, colorScheme: ColorScheme } } };
+export type GetCurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', id: string, email: string, displayName: string, firstName?: string | null, lastName?: string | null, avatarUrl?: string | null, allowImpersonation: boolean, workspaceMember?: { __typename?: 'WorkspaceMember', id: string, workspace: { __typename?: 'Workspace', id: string, domainName?: string | null, displayName?: string | null, logo?: string | null, inviteHash?: string | null } } | null, settings: { __typename?: 'UserSettings', id: string, locale: string, colorScheme: ColorScheme } } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3232,6 +3248,7 @@ export const VerifyDocument = gql`
       displayName
       firstName
       lastName
+      allowImpersonation
       workspaceMember {
         id
         workspace {
@@ -4525,6 +4542,7 @@ export const GetCurrentUserDocument = gql`
     firstName
     lastName
     avatarUrl
+    allowImpersonation
     workspaceMember {
       id
       workspace {

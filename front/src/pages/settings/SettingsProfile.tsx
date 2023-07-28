@@ -4,6 +4,7 @@ import { DeleteWorkspace } from '@/settings/profile/components/DeleteWorkspace';
 import { EmailField } from '@/settings/profile/components/EmailField';
 import { NameFields } from '@/settings/profile/components/NameFields';
 import { ProfilePictureUploader } from '@/settings/profile/components/ProfilePictureUploader';
+import { ToggleField } from '@/settings/profile/components/ToggleField';
 import { IconSettings } from '@/ui/icon';
 import { SubMenuTopBarContainer } from '@/ui/layout/components/SubMenuTopBarContainer';
 import { MainSectionTitle } from '@/ui/title/components/MainSectionTitle';
@@ -49,6 +50,14 @@ export function SettingsProfile() {
               description="The email associated to your account"
             />
             <EmailField />
+          </StyledSectionContainer>
+
+          <StyledSectionContainer>
+            <SubSectionTitle
+              title="Support"
+              addornment={<ToggleField />}
+              description="Grant Twenty support temporary access to your account so we can troubleshoot problems or recover content on your behalf. You can revoke access at any time."
+            />
           </StyledSectionContainer>
 
           <StyledSectionContainer>
